@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
+import SendMessage from "./SendMessage";
 import SignOut from "./SignOut";
 
 const Line = () => {
@@ -25,13 +26,19 @@ const Line = () => {
         {/* firestoreのルールで書き込みの設定をしておく */}
         {messages.map(({ id, text, photoURL, uid }) => (
           <div>
-            <div key={id}>
+            <div
+              key={id}
+              className={`msg ${
+                uid === auth.currentUser.uid ? "sent" : "recieved"
+              }`}
+            >
               <img src={photoURL} alt="test" />
               <p>{text}</p>
             </div>
           </div>
         ))}
       </div>
+      <SendMessage />
     </div>
   );
 };
